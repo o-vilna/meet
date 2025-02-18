@@ -34,7 +34,7 @@ The primary goal is to create a high-quality, responsive application that meets 
    cd meet-app
    ```
 3. Install dependencies:
-   ```bash
+   ```bash\
    npm install
    ```
 4. Start the development server:
