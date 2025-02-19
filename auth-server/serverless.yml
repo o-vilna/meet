@@ -26,13 +26,16 @@ functions:
           path: api/token/{code}
           method: get
           cors:
-            origin: "*" # Allow all origins
+            origin: "*"
             headers:
               - Content-Type
               - X-Amz-Date
               - Authorization
               - X-Api-Key
               - X-Amz-Security-Token
+              - Access-Control-Allow-Origin
+              - Access-Control-Allow-Methods
+              - Access-Control-Allow-Headers
             allowCredentials: true
 
   getCalendarEvents:

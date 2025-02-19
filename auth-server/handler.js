@@ -43,54 +43,81 @@ module.exports.getAuthURL = async () => {
 };
 
 module.exports.getAccessToken = async (event) => {
+  console.log("Event received:", JSON.stringify(event, null, 2));
+
   try {
     const code = decodeURIComponent(event.pathParameters.code);
-    console.log("Received code:", code);
+    console.log("Decoded authorization code:", code);
+
+    console.log("OAuth2Client config:", {
+      clientId: CLIENT_ID,
+      redirectUri: redirect_uris[0],
+    });
 
     const response = await new Promise((resolve, reject) => {
       oAuth2Client.getToken(code, (error, response) => {
         if (error) {
+          console.error("OAuth2Client.getToken error:", error);
           reject(error);
         } else {
-          oAuth2Client.setCredentials(response.tokens);
-          resolve(response.tokens);
+          console.log(
+            "OAuth2Client.getToken response:",
+            JSON.stringify(response, null, 2)
+          );
+          oAuth2Client.setCredentials(response);
+          resolve(response);
         }
       });
     });
 
-    console.log("Response from getToken:", JSON.stringify(response, null, 2));
+    console.log("Final response object:", JSON.stringify(response, null, 2));
 
-    return {
+    const finalResponse = {
       statusCode: 200,
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Credentials": true,
-        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(response),
     };
+
+    console.log("Sending response:", JSON.stringify(finalResponse, null, 2));
+    return finalResponse;
   } catch (error) {
-    console.error("Error during token exchange:", error);
-    return {
+    console.error("Error in getAccessToken:", {
+      message: error.message,
+      stack: error.stack,
+      error: error,
+    });
+
+    const errorResponse = {
       statusCode: 500,
-      headers: { "Access-Control-Allow-Origin": "*" },
-      body: JSON.stringify({ error: error.message }),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        error: true,
+        message: error.message,
+        details: error.stack,
+      }),
     };
+
+    console.log(
+      "Sending error response:",
+      JSON.stringify(errorResponse, null, 2)
+    );
+    return errorResponse;
   }
 };
 
 module.exports.getCalendarEvents = async (event) => {
   try {
     const access_token = decodeURIComponent(event.pathParameters.access_token);
-
-    if (!access_token) {
-      throw new Error("Missing access token");
-    }
-
     oAuth2Client.setCredentials({ access_token });
 
-    const eventsResponse = await new Promise((resolve, reject) => {
+    const results = await new Promise((resolve, reject) => {
       calendar.events.list(
         {
           calendarId: CALENDAR_ID,
@@ -103,23 +130,11 @@ module.exports.getCalendarEvents = async (event) => {
           if (error) {
             reject(error);
           } else {
-            resolve(response.data.items || []); // Return empty array if no events
+            resolve(response);
           }
         }
       );
     });
-
-    // Check if there are events, if not, return a message
-    if (eventsResponse.length === 0) {
-      return {
-        statusCode: 200,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Credentials": true,
-        },
-        body: JSON.stringify({ message: "No events found" }),
-      };
-    }
 
     return {
       statusCode: 200,
@@ -127,7 +142,7 @@ module.exports.getCalendarEvents = async (event) => {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Credentials": true,
       },
-      body: JSON.stringify({ events: eventsResponse }),
+      body: JSON.stringify({ events: results.data.items }),
     };
   } catch (error) {
     console.error("Error fetching calendar events:", error);
