@@ -1,35 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState, useEffect } from 'react';
+import EventList from './components/EventList';
+import CitySearch from './components/CitySearch';
+import NumberOfEvents from './components/NumberOfEvents';
+import { getEvents, extractLocations } from './api';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [events, setEvents] = useState([]);
+  const [numberOfEvents, setNumberOfEvents] = useState(32);
+  const [currentCity, setCurrentCity] = useState("See all cities");
+  const [locations, setLocations] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const allEvents = await getEvents();
+      const filteredEvents = currentCity === "See all cities" 
+        ? allEvents 
+        : allEvents.filter(event => event.location === currentCity);
+      setEvents(filteredEvents.slice(0, numberOfEvents));
+      setLocations(extractLocations(allEvents));
+    };
+    
+    fetchData();
+  }, [currentCity, numberOfEvents]);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="App">
+      <CitySearch 
+        setCurrentCity={setCurrentCity}
+        suggestions={locations}
+      />
+      <NumberOfEvents setEventCount={setNumberOfEvents} />
+      <EventList events={events} />
+    </div>
+  );
 }
 
-export default App
+export default App;
