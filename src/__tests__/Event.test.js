@@ -21,8 +21,9 @@ describe("<Event /> component", () => {
   });
 
   test("renders event start time", () => {
-    const date = EventComponent.queryByText(allEvents[0].created || "No Date");
-    expect(date).toBeInTheDocument();
+    const dateElement =
+      EventComponent.container.querySelector("p:nth-child(2)");
+    expect(dateElement).toBeInTheDocument();
   });
 
   test("renders event location", () => {

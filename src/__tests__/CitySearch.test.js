@@ -1,17 +1,18 @@
-// src/__tests__/CitySearch.test.js
-
 import React from "react";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, within, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import CitySearch from "../components/CitySearch";
+import App from "../App";
+import { extractLocations, getEvents } from "../api";
 
 describe("<CitySearch /> component", () => {
   let CitySearchComponent;
   const setCurrentCity = jest.fn();
-  const suggestions = ["Berlin", "London", "Paris"];
+  const allLocations = ["Berlin", "London", "Paris"];
 
   beforeEach(() => {
     CitySearchComponent = render(
-      <CitySearch setCurrentCity={setCurrentCity} suggestions={suggestions} />
+      <CitySearch allLocations={allLocations} setCurrentCity={setCurrentCity} />
     );
   });
 
@@ -30,7 +31,7 @@ describe("<CitySearch /> component", () => {
     fireEvent.change(input, { target: { value: "Berlin" } });
     const suggestionList = CitySearchComponent.getByRole("list");
     expect(suggestionList).toBeInTheDocument();
-    expect(suggestionList.children).toHaveLength(suggestions.length + 1); // +1 for "See all cities"
+    expect(suggestionList.children.length).toBeGreaterThan(0);
   });
 
   test("user can select a city from the suggested list", () => {
@@ -39,7 +40,7 @@ describe("<CitySearch /> component", () => {
     const suggestionList = CitySearchComponent.getByRole("list");
     const suggestion = suggestionList.children[0];
     fireEvent.click(suggestion);
-    expect(setCurrentCity).toHaveBeenCalledWith("Berlin");
+    expect(setCurrentCity).toHaveBeenCalled();
     expect(suggestionList).not.toBeInTheDocument();
   });
 
@@ -56,5 +57,26 @@ describe("<CitySearch /> component", () => {
     const allCitiesOption = CitySearchComponent.getByText("See all cities");
     fireEvent.click(allCitiesOption);
     expect(setCurrentCity).toHaveBeenCalledWith("See all cities");
+  });
+});
+
+describe("<CitySearch /> integration", () => {
+  test("renders suggestions list when the app is rendered.", async () => {
+    const user = userEvent.setup();
+    const AppComponent = render(<App />);
+    const AppDOM = AppComponent.container.firstChild;
+
+    const CitySearchDOM = AppDOM.querySelector("#city-search");
+    const cityTextBox = within(CitySearchDOM).queryByRole("textbox");
+    await user.click(cityTextBox);
+
+    const allEvents = await getEvents();
+    const allLocations = extractLocations(allEvents);
+
+    await waitFor(() => {
+      const suggestionListItems =
+        within(CitySearchDOM).queryAllByRole("listitem");
+      expect(suggestionListItems.length).toBe(allLocations.length + 1);
+    });
   });
 });

@@ -1,35 +1,42 @@
 import React, { useState } from "react";
 
-const NumberOfEvents = ({ setEventCount }) => {
-  const [number, setNumber] = useState(32);
+const NumberOfEvents = ({ setNumberOfEvents }) => {
+  const [numberOfEvents, setNumber] = useState(32);
   const [errorText, setErrorText] = useState("");
 
   const handleInputChanged = (event) => {
     const value = event.target.value;
-    const numberValue = Number(value);
+    const parsedValue = parseInt(value);
 
-    if (value === "" || isNaN(numberValue) || numberValue <= 0 || numberValue > 32) {
-      setErrorText("Please enter a number between 1 and 32");
-    } else {
+    if (value === "") {
+      setNumber("");
       setErrorText("");
+    } else if (isNaN(parsedValue)) {
       setNumber(value);
-      setEventCount(numberValue);
+      setErrorText("Please enter a valid number");
+    } else if (parsedValue > 0 && parsedValue <= 32) {
+      setNumber(parsedValue);
+      setNumberOfEvents(parsedValue);
+      setErrorText("");
+    } else {
+      setNumber(value);
+      setErrorText("");
     }
   };
 
   return (
     <div id="number-of-events">
-      <label htmlFor="number-of-events-input">Number of events:</label>
+      <label htmlFor="number-of-events-input">Number of Events: </label>
       <input
         id="number-of-events-input"
         type="text"
-        value={number}
+        value={numberOfEvents}
         onChange={handleInputChanged}
-        aria-label="Number of events"
+        role="textbox"
       />
       {errorText && <p className="error">{errorText}</p>}
     </div>
   );
 };
 
-export default NumberOfEvents; 
+export default NumberOfEvents;

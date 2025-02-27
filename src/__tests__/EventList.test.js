@@ -1,28 +1,34 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { render, waitFor, within } from "@testing-library/react";
+import { getEvents } from "../api";
 import EventList from "../components/EventList";
+import App from "../App";
 
 describe("<EventList /> component", () => {
-  test('has an element with "list" role', () => {
-    const EventListComponent = render(<EventList />);
-    expect(EventListComponent.queryByRole("list")).toBeInTheDocument();
+  let EventListComponent;
+  beforeEach(() => {
+    EventListComponent = render(
+      <EventList events={[{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }]} />
+    );
   });
 
   test("renders correct number of events", () => {
-    const events = [
-      { id: 1, summary: "Event 1" },
-      { id: 2, summary: "Event 2" },
-      { id: 3, summary: "Event 3" },
-    ];
-    const EventListComponent = render(<EventList events={events} />);
-    const eventElements =
-      EventListComponent.container.querySelectorAll(".event");
-    expect(eventElements).toHaveLength(3);
+    expect(EventListComponent.getAllByRole("listitem")).toHaveLength(4);
   });
 
   test("renders empty list when no events are passed", () => {
     const EventListComponent = render(<EventList />);
     const eventList = EventListComponent.container.querySelector("#event-list");
     expect(eventList.children).toHaveLength(0);
+  });
+});
+
+test("renders a list of 32 events when the app is mounted and rendered", async () => {
+  const AppComponent = render(<App />);
+  const AppDOM = AppComponent.container.firstChild;
+  const EventListDOM = AppDOM.querySelector("#event-list");
+  await waitFor(() => {
+    const EventListItems = within(EventListDOM).queryAllByRole("listitem");
+    expect(EventListItems.length).toBe(32);
   });
 });

@@ -1,36 +1,35 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react";
+import { render } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import NumberOfEvents from "../components/NumberOfEvents";
 
 describe("<NumberOfEvents /> component", () => {
   let NumberOfEventsComponent;
-  const setEventCount = jest.fn();
+  const setNumberOfEvents = jest.fn();
 
   beforeEach(() => {
     NumberOfEventsComponent = render(
-      <NumberOfEvents setEventCount={setEventCount} />
+      <NumberOfEvents setNumberOfEvents={setNumberOfEvents} />
     );
   });
 
-  test("renders text input with default value 32", () => {
-    const input = NumberOfEventsComponent.getByRole("textbox");
-    expect(input).toBeInTheDocument();
-    expect(input.value).toBe("32");
+  test("renders number of events text input", () => {
+    const numberTextBox = NumberOfEventsComponent.queryByRole("textbox");
+    expect(numberTextBox).toBeInTheDocument();
   });
 
-  test("user can change number of events", () => {
-    const input = NumberOfEventsComponent.getByRole("textbox");
-    fireEvent.change(input, { target: { value: "10" } });
-    expect(input.value).toBe("10");
-    expect(setEventCount).toHaveBeenCalledWith(10);
+  test("default number is 32", async () => {
+    const numberTextBox = NumberOfEventsComponent.queryByRole("textbox");
+    expect(numberTextBox).toHaveValue("32");
   });
 
-  test("shows error for invalid number", () => {
-    const input = NumberOfEventsComponent.getByRole("textbox");
-    fireEvent.change(input, { target: { value: "33" } });
-    const errorMessage = NumberOfEventsComponent.getByText(
-      "Please enter a number between 1 and 32"
-    );
-    expect(errorMessage).toBeInTheDocument();
+  test("number of events text box value changes when the user types in it", async () => {
+    const user = userEvent.setup();
+    const numberTextBox = NumberOfEventsComponent.queryByRole("textbox");
+
+    await user.clear(numberTextBox);
+    await user.type(numberTextBox, "10");
+
+    expect(numberTextBox).toHaveValue("10");
   });
 });

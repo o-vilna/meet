@@ -1,13 +1,26 @@
 import React, { useState } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 const Event = ({ event = {} }) => {
   const [showDetails, setShowDetails] = useState(false);
 
+  console.log("Event rendering:", event);
+
+  const formatDate = (dateString) => {
+    if (!dateString) return "No Date";
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleString();
+    } catch (error) {
+      console.error("Error formatting date:", error);
+      return dateString;
+    }
+  };
+
   return (
     <li className="event">
       <h2>{event.summary || "No Title"}</h2>
-      <p>{event.created || "No Date"}</p>
+      <p>{formatDate(event.created)}</p>
       <p>{event.location || "No Location"}</p>
       <button
         className="details-btn"
