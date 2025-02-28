@@ -1,36 +1,35 @@
 import React, { useState, useEffect } from "react";
 
-const CitySearch = ({ setCurrentCity, allLocations = [] }) => {
-  const [query, setQuery] = useState("");
+const CitySearch = ({ allLocations, setCurrentCity }) => {
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
 
   useEffect(() => {
-    const validLocations = Array.isArray(allLocations) ? allLocations : [];
-    setSuggestions(validLocations);
+    setSuggestions(allLocations);
   }, [allLocations]);
 
   const handleInputChanged = (event) => {
     const value = event.target.value;
     setQuery(value);
-
-    const validLocations = Array.isArray(allLocations) ? allLocations : [];
-
-    const filteredLocations = validLocations.filter((location) => {
-      if (!location || typeof location !== "string") return false;
-
-      try {
-        return location.toLowerCase().includes(value.toLowerCase());
-      } catch (error) {
-        console.error("Error filtering location:", error);
-        return false;
-      }
-    });
-
-    setSuggestions(filteredLocations);
     setShowSuggestions(true);
-
-    setCurrentCity(value);
+    
+    // Filter locations while typing
+    if (value.length === 0) {
+      setSuggestions(allLocations);
+      setCurrentCity("See all cities");
+    } else {
+      const filteredLocations = allLocations.filter((location) => {
+        return location && location.toLowerCase().includes(value.toLowerCase());
+      });
+      setSuggestions(filteredLocations);
+      // Update current city only if there is at least one letter
+      if (filteredLocations.length > 0) {
+        setCurrentCity(filteredLocations[0]);
+      } else {
+        setCurrentCity(value);
+      }
+    }
   };
 
   const handleItemClicked = (event) => {
@@ -51,17 +50,21 @@ const CitySearch = ({ setCurrentCity, allLocations = [] }) => {
         onFocus={() => setShowSuggestions(true)}
       />
       {showSuggestions && (
-        <ul className="suggestions">
-          {/* Показуємо відфільтровані міста тільки якщо вони є */}
-          {Array.isArray(suggestions) &&
-            suggestions.length > 0 &&
-            suggestions.map((suggestion, index) => (
-              <li key={`${suggestion}-${index}`} onClick={handleItemClicked}>
-                {suggestion}
-              </li>
-            ))}
-          {/* Завжди показуємо "See all cities" */}
-          <li key="all" onClick={handleItemClicked}>
+        <ul className="suggestions" role="list">
+          {suggestions.map((suggestion) => (
+            <li 
+              key={suggestion} 
+              onClick={handleItemClicked}
+              role="listitem"
+            >
+              {suggestion}
+            </li>
+          ))}
+          <li 
+            key="all" 
+            onClick={handleItemClicked}
+            role="listitem"
+          >
             <b>See all cities</b>
           </li>
         </ul>

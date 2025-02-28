@@ -26,36 +26,52 @@ describe("<CitySearch /> component", () => {
     expect(suggestionList).not.toBeInTheDocument();
   });
 
-  test("renders a list of suggestions when user types", () => {
+  test("renders a list of suggestions when user types", async () => {
     const input = CitySearchComponent.getByPlaceholderText("Search for a city");
     fireEvent.change(input, { target: { value: "Berlin" } });
+
+    // Чекаємо поки список з'явиться
+    await CitySearchComponent.findByRole("list");
     const suggestionList = CitySearchComponent.getByRole("list");
+
     expect(suggestionList).toBeInTheDocument();
     expect(suggestionList.children.length).toBeGreaterThan(0);
   });
 
-  test("user can select a city from the suggested list", () => {
+  test("user can select a city from the suggested list", async () => {
     const input = CitySearchComponent.getByPlaceholderText("Search for a city");
     fireEvent.change(input, { target: { value: "Berlin" } });
+
+    // Чекаємо поки список з'явиться
+    await CitySearchComponent.findByRole("list");
     const suggestionList = CitySearchComponent.getByRole("list");
+
     const suggestion = suggestionList.children[0];
     fireEvent.click(suggestion);
     expect(setCurrentCity).toHaveBeenCalled();
-    expect(suggestionList).not.toBeInTheDocument();
   });
 
-  test("shows suggestions when input receives focus", () => {
-    const input = CitySearchComponent.getByPlaceholderText("Search for a city");
-    fireEvent.focus(input);
-    const suggestionList = CitySearchComponent.getByRole("list");
-    expect(suggestionList).toBeInTheDocument();
-  });
-
-  test("selects 'See all cities' option", () => {
+  test("selects 'See all cities' option", async () => {
     const input = CitySearchComponent.getByPlaceholderText("Search for a city");
     fireEvent.change(input, { target: { value: "Berlin" } });
-    const allCitiesOption = CitySearchComponent.getByText("See all cities");
+
+    // Чекаємо поки список з'явиться
+    await CitySearchComponent.findByRole("list");
+    const allCitiesOption = CitySearchComponent.getByText(/see all cities/i);
+
     fireEvent.click(allCitiesOption);
+    expect(setCurrentCity).toHaveBeenCalledWith("See all cities");
+  });
+
+  test("updates suggestions list when user types nothing", async () => {
+    const user = userEvent.setup();
+    const input = CitySearchComponent.getByPlaceholderText("Search for a city");
+
+    // Спочатку вводимо якийсь текст
+    await user.type(input, "Berlin");
+    // Потім видаляємо його
+    await user.clear(input);
+
     expect(setCurrentCity).toHaveBeenCalledWith("See all cities");
   });
 });

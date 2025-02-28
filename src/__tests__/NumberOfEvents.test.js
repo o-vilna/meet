@@ -1,35 +1,50 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { render, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import NumberOfEvents from "../components/NumberOfEvents";
+import App from "../App";
 
 describe("<NumberOfEvents /> component", () => {
   let NumberOfEventsComponent;
-  const setNumberOfEvents = jest.fn();
 
   beforeEach(() => {
     NumberOfEventsComponent = render(
-      <NumberOfEvents setNumberOfEvents={setNumberOfEvents} />
+      <NumberOfEvents setNumberOfEvents={() => {}} />
     );
   });
 
-  test("renders number of events text input", () => {
-    const numberTextBox = NumberOfEventsComponent.queryByRole("textbox");
-    expect(numberTextBox).toBeInTheDocument();
+  test("renders number input", () => {
+    const numberInput = NumberOfEventsComponent.queryByRole("textbox");
+    expect(numberInput).toBeInTheDocument();
   });
 
-  test("default number is 32", async () => {
-    const numberTextBox = NumberOfEventsComponent.queryByRole("textbox");
-    expect(numberTextBox).toHaveValue("32");
+  test("default number is 32", () => {
+    const numberInput = NumberOfEventsComponent.queryByRole("textbox");
+    expect(numberInput.value).toBe("32");
   });
 
-  test("number of events text box value changes when the user types in it", async () => {
+  test("number of events changes when user types", async () => {
     const user = userEvent.setup();
-    const numberTextBox = NumberOfEventsComponent.queryByRole("textbox");
+    const numberInput = NumberOfEventsComponent.queryByRole("textbox");
+    await user.type(numberInput, "{backspace}{backspace}10");
+    expect(numberInput.value).toBe("10");
+  });
+});
 
-    await user.clear(numberTextBox);
-    await user.type(numberTextBox, "10");
+describe("<NumberOfEvents /> integration", () => {
+  test("user can change number of events", async () => {
+    const user = userEvent.setup();
+    const AppComponent = render(<App />);
+    const AppDOM = AppComponent.container.firstChild;
 
-    expect(numberTextBox).toHaveValue("10");
+    const NumberOfEventsDOM = AppDOM.querySelector("#number-of-events");
+    const numberInput = within(NumberOfEventsDOM).queryByRole("textbox");
+
+    await user.type(numberInput, "{backspace}{backspace}10");
+
+    const EventListDOM = AppDOM.querySelector("#event-list");
+    const eventList = within(EventListDOM).queryAllByRole("listitem");
+
+    expect(eventList.length).toBe(10);
   });
 });

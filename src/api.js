@@ -16,7 +16,7 @@ export const extractLocations = (events) => {
   return locations;
 };
 
-// Перевірка токену доступу
+// Check access token
 const checkToken = async (accessToken) => {
   const response = await fetch(
     `https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${accessToken}`
@@ -25,7 +25,7 @@ const checkToken = async (accessToken) => {
   return result;
 };
 
-// Видалення параметрів запиту з URL
+// Remove query parameters from URL
 const removeQuery = () => {
   let newurl;
   if (window.history.pushState && window.location.pathname) {
@@ -41,7 +41,7 @@ const removeQuery = () => {
   }
 };
 
-// Отримання токену за кодом авторизації
+// Get token by authorization code
 const getToken = async (code) => {
   const encodeCode = encodeURIComponent(code);
   const response = await fetch(
@@ -55,7 +55,7 @@ const getToken = async (code) => {
   return access_token;
 };
 
-// Отримання токену доступу
+// Get access token
 export const getAccessToken = async () => {
   const accessToken = localStorage.getItem("access_token");
   const tokenCheck = accessToken && (await checkToken(accessToken));

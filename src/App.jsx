@@ -13,29 +13,44 @@ const App = () => {
   const [allLocations, setAllLocations] = useState([]);
   const [currentCity, setCurrentCity] = useState("See all cities");
 
-  const fetchData = async () => {
-    const allEvents = await getEvents();
-    const filteredEvents = currentCity === "See all cities"
-      ? allEvents
-      : allEvents.filter(event => event.location === currentCity);
-    setEvents(filteredEvents.slice(0, currentNOE));
-    setAllLocations(extractLocations(allEvents));
-  }
-
   useEffect(() => {
     fetchData();
   }, [currentCity, currentNOE]);
 
+  const fetchData = async () => {
+    const allEvents = await getEvents();
+    
+    // Filter events by city
+    const filteredEvents = currentCity === "See all cities" 
+      ? allEvents 
+      : allEvents.filter(event => {
+          return event.location && 
+                 event.location.toLowerCase().includes(currentCity.toLowerCase());
+        });
+    
+    // Limit the number of events according to currentNOE
+    setEvents(filteredEvents.slice(0, currentNOE));
+    setAllLocations(extractLocations(allEvents));
+  };
+
   return (
     <div className="App">
+      <div className="alerts-container">
+        {/* Place for future alerts */}
+      </div>
       <CitySearch 
         allLocations={allLocations} 
-        setCurrentCity={setCurrentCity}
+        setCurrentCity={setCurrentCity} 
       />
       <NumberOfEvents 
         setNumberOfEvents={setCurrentNOE}
       />
-      <EventList events={events}/>
+      <div className="charts-container">
+        {/* Місце для майбутніх графіків */}
+      </div>
+      <EventList 
+        events={events}
+      />
     </div>
   );
 }

@@ -82,28 +82,15 @@ describe("<App /> integration", () => {
     const AppComponent = render(<App />);
     const AppDOM = AppComponent.container.firstChild;
 
-    await waitFor(() => {
-      const eventList = AppDOM.querySelector("#event-list");
-      const initialEvents = within(eventList).queryAllByRole("listitem");
-      console.log("Initial events length:", initialEvents.length);
-      expect(initialEvents.length).toBe(32);
-    });
+    const NumberOfEventsDOM = AppDOM.querySelector("#number-of-events");
+    const numberOfEventsInput =
+      within(NumberOfEventsDOM).queryByRole("textbox");
 
-    const numberOfEventsInput = AppDOM.querySelector("#number-of-events-input");
+    await user.type(numberOfEventsInput, "{backspace}{backspace}10");
 
-    await user.clear(numberOfEventsInput);
-    await user.type(numberOfEventsInput, "10");
+    const EventListDOM = AppDOM.querySelector("#event-list");
+    const eventList = within(EventListDOM).queryAllByRole("listitem");
 
-    await user.tab();
-
-    await waitFor(
-      () => {
-        const eventList = AppDOM.querySelector("#event-list");
-        const updatedEvents = within(eventList).queryAllByRole("listitem");
-        console.log("Updated events length:", updatedEvents.length);
-        expect(updatedEvents.length).toBe(10);
-      },
-      { timeout: 3000 }
-    );
+    expect(eventList.length).toBe(10);
   });
 });

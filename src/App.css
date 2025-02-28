@@ -50,7 +50,6 @@ input[type="number"] {
   margin: 0;
   font-size: 14px;
   box-shadow: 10px 10px 16px -12px rgba(0, 0, 0, 0.75);
-  background-color: #f8f8f8;
 }
 
 .suggestions > li {
@@ -58,7 +57,6 @@ input[type="number"] {
   padding: 8px 6px 8px 10px;
   background-color: #eee;
   cursor: default;
-  color: #333;
 }
 
 .suggestions > li:last-child {
@@ -68,7 +66,6 @@ input[type="number"] {
 
 .suggestions > li:hover {
   background-color: #bcdcdb;
-  color: #000;
 }
 
 .event {
@@ -90,45 +87,21 @@ input[type="number"] {
   cursor: pointer;
 }
 
-.number-of-events {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 20px 0;
+.alerts-container {
+  position: fixed;
+  top: 0px;
+  left: 20px;
+  width: 250px;
+  z-index: 1000;
 }
 
-.event-number {
-  width: 80px;
-  margin: 10px 0;
-  text-align: center;
+.charts-container {
+  grid-template-columns: 1fr 1fr;
+  display: grid;
 }
 
-.error {
-  color: red;
-  font-size: 14px;
-}
-
-/* Адаптивний дизайн */
-@media only screen and (max-width: 768px) {
-  .App {
-    padding: 2% 3%;
+@media (max-width: 768px) {
+  .charts-container {
+    grid-template-columns: 1fr;
   }
-
-  .city {
-    width: 100%;
-  }
-
-  #city-search {
-    max-width: 100%;
-  }
-
-  .suggestions {
-    width: 100%;
-  }
-}
-
-#number-of-events-input {
-  width: 80px;
-  margin: 10px 0;
-  text-align: center;
 }
