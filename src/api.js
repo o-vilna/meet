@@ -1,7 +1,5 @@
 import mockData from "./mock-data";
 
-console.log("Кількість подій у mockData:", mockData.length);
-
 /**
  *
  * @param {*} events:

@@ -19,18 +19,20 @@ const Event = ({ event = {} }) => {
 
   return (
     <li className="event">
-      <h2>{event.summary || "No Title"}</h2>
-      <p>{formatDate(event.created)}</p>
-      <p>{event.location || "No Location"}</p>
+      <div className="event-content">
+        <h2>{event.summary || "No Title"}</h2>
+        <p className="event-date">{formatDate(event.created)}</p>
+        <p className="event-location">{event.location || "No Location"}</p>
+      </div>
       <button
         className="details-btn"
         onClick={() => setShowDetails(!showDetails)}
       >
-        {showDetails ? "hide details" : "show details"}
+        <span>{showDetails ? "hide details" : "show details"}</span>
       </button>
 
       {showDetails && (
-        <div className="event-details">
+        <div className="event-details" data-testid="event-details">
           <h3>Event Details</h3>
           <p>{event.description || "No Description Available"}</p>
         </div>

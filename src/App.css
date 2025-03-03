@@ -69,22 +69,43 @@ input[type="number"] {
 }
 
 .event {
-  padding: 10px 10px 35px;
-  margin-bottom: 10px;
-  text-align: left;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-bottom: 20px;
+  padding: 25px;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 280px;
+  box-sizing: border-box;
+  width: 100%;
   position: relative;
 }
 
 .details-btn {
-  position: absolute;
-  right: 5px;
-  bottom: 5px;
-  padding: 5px 8px;
-  border-radius: 4px;
-  outline: none;
+  position: relative;
+  margin-top: auto;
+  margin-bottom: 0;
+  z-index: 2;
+  align-self: flex-start;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
   cursor: pointer;
+  transition: background-color 0.3s;
+  font-weight: 600;
+  font-size: 1.1rem;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 150px;
+  text-align: center;
 }
 
 .alerts-container {
@@ -103,5 +124,199 @@ input[type="number"] {
 @media (max-width: 768px) {
   .charts-container {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Повністю оновлені стилі для центрування карток */
+
+/* Базові стилі */
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: #f5f7fa;
+  margin: 0;
+  padding: 0;
+  color: #333;
+  width: 100%;
+  display: flex;
+  justify-content: center; /* Центрування всього вмісту */
+}
+
+/* Контейнер додатку - центрування */
+.App {
+  width: 100%;
+  max-width: 1800px; /* Обмежена максимальна ширина */
+  margin: 0 auto;
+  padding: 1% 2%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Адаптивний список подій - центрування */
+#event-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+  padding: 0;
+  list-style: none;
+  width: 90%; /* Зменшено ширину для центрування */
+  margin: 0 auto;
+  justify-content: center;
+  justify-items: center; /* Центрування елементів сітки */
+}
+
+/* Стилі для подій */
+.event {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-bottom: 20px;
+  padding: 25px;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 280px;
+  box-sizing: border-box;
+  width: 100%;
+  position: relative;
+}
+
+/* Центрування елементів списку */
+#event-list li {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Центрування пошуку міста */
+#city-search {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 35px;
+  width: 90%; /* Зменшено ширину для центрування */
+  max-width: 600px;
+  align-self: center;
+}
+
+/* Центрування кількості подій */
+.number-of-events {
+  align-self: center;
+  margin-bottom: 30px;
+  width: 90%;
+  max-width: 600px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Решта стилів залишається без змін */
+.event-content {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.event h2 {
+  color: #2c3e50;
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+  line-height: 1.4;
+  min-height: 4.2rem;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  width: 100%;
+}
+
+.event-content p {
+  color: #555;
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+  min-height: 1.6rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.event:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.event-details {
+  flex: 1 0 auto;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+  color: #444;
+  width: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.event-details h3 {
+  font-size: 1.3rem;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.event-details p {
+  flex: 1;
+  margin-bottom: 15px;
+  font-size: 1rem;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+/* Медіа-запити для адаптивності */
+@media (max-width: 1400px) {
+  #event-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 1000px) {
+  #event-list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .event {
+    min-height: 250px;
+  }
+}
+
+@media (max-width: 700px) {
+  #event-list {
+    grid-template-columns: 1fr;
+    width: 95%;
+  }
+
+  #city-search {
+    width: 95%;
+    padding: 20px;
+  }
+
+  .event {
+    min-height: 220px;
+    padding: 20px;
+  }
+
+  .event h2 {
+    font-size: 1.4rem;
   }
 }
