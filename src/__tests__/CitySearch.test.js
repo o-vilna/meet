@@ -8,11 +8,16 @@ import { extractLocations, getEvents } from "../api";
 describe("<CitySearch /> component", () => {
   let CitySearchComponent;
   const setCurrentCity = jest.fn();
+  const setInfoAlert = jest.fn();
   const allLocations = ["Berlin", "London", "Paris"];
 
   beforeEach(() => {
     CitySearchComponent = render(
-      <CitySearch allLocations={allLocations} setCurrentCity={setCurrentCity} />
+      <CitySearch
+        allLocations={allLocations}
+        setCurrentCity={setCurrentCity}
+        setInfoAlert={setInfoAlert}
+      />
     );
   });
 
@@ -49,6 +54,7 @@ describe("<CitySearch /> component", () => {
     const suggestion = suggestionList.children[0];
     fireEvent.click(suggestion);
     expect(setCurrentCity).toHaveBeenCalled();
+    expect(setInfoAlert).toHaveBeenCalledWith("");
   });
 
   test("selects 'See all cities' option", async () => {
@@ -61,6 +67,7 @@ describe("<CitySearch /> component", () => {
 
     fireEvent.click(allCitiesOption);
     expect(setCurrentCity).toHaveBeenCalledWith("See all cities");
+    expect(setInfoAlert).toHaveBeenCalledWith("");
   });
 
   test("updates suggestions list when user types nothing", async () => {
@@ -73,6 +80,7 @@ describe("<CitySearch /> component", () => {
     await user.clear(input);
 
     expect(setCurrentCity).toHaveBeenCalledWith("See all cities");
+    expect(setInfoAlert).toHaveBeenCalled();
   });
 });
 
