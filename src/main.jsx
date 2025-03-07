@@ -1,23 +1,20 @@
 import React from 'react'
-import { createRoot } from 'react-dom/client'
-import App from './App'
+import ReactDOM from 'react-dom/client'
+import App from './App.jsx'
 import './index.css'
+// import * as atatus from 'atatus-spa';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
-//import * as atatus from 'atatus-spa';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 
-//atatus.config('1cdb7d6760df41cc836756b913328257').install();
+// atatus.config('1b1ee5665eb943e3bdb71259beabe47a').install();
 
-const container = document.getElementById('root')
-const root = createRoot(container)
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-)
 
-// Реєструємо сервіс воркер тільки в продакшені
+ReactDOM.createRoot(document.getElementById('root')).render(
+ <React.StrictMode>
+   <App />
+ </React.StrictMode>,
+);
+
 if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
   serviceWorkerRegistration.register()
 }
-

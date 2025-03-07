@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) navigator.serviceWorker.register('/meet/dev-sw.js?dev-sw', { scope: '/meet/', type: 'classic' })
