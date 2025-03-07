@@ -4,7 +4,7 @@ import App from './App'
 import './index.css'
 
 //import * as atatus from 'atatus-spa';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 
 //atatus.config('1cdb7d6760df41cc836756b913328257').install();
 
@@ -15,5 +15,9 @@ root.render(
     <App />
   </React.StrictMode>
 )
-serviceWorkerRegistration.register();
+
+// Реєструємо сервіс воркер тільки в продакшені
+if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+  serviceWorkerRegistration.register()
+}
 
