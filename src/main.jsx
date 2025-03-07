@@ -1,15 +1,17 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import * as atatus from 'atatus-spa';
-
-import './index.css'
+import React from 'react'
+import ReactDom from 'react-dom/client'
 import App from './App.jsx'
+import './index.css'
 
-atatus.config('1cdb7d6760df41cc836756b913328257').install();
+//import * as atatus from 'atatus-spa';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
+//atatus.config('1cdb7d6760df41cc836756b913328257').install();
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
     <App />
-  </StrictMode>,
-);
+  </React.StrictMode>,
+ );
+ serviceWorkerRegistration.register();
 
