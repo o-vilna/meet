@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1741344396617" clover="3.2.0">
-  <project timestamp="1741344396617" name="All files">
-    <metrics statements="78" coveredstatements="72" conditionals="37" coveredconditionals="30" methods="19" coveredmethods="19" elements="134" coveredelements="121" complexity="0" loc="78" ncloc="78" packages="2" files="6" classes="6"/>
+<coverage generated="1741385465740" clover="3.2.0">
+  <project timestamp="1741385465740" name="All files">
+    <metrics statements="78" coveredstatements="74" conditionals="37" coveredconditionals="31" methods="19" coveredmethods="19" elements="134" coveredelements="124" complexity="0" loc="78" ncloc="78" packages="2" files="8" classes="8"/>
     <package name="src">
       <metrics statements="17" coveredstatements="17" conditionals="8" coveredconditionals="6" methods="4" coveredmethods="4"/>
       <file name="App.jsx" path="/Users/olya/Documents/GitHub/meet/src/App.jsx">
         <metrics statements="16" coveredstatements="16" conditionals="8" coveredconditionals="6" methods="4" coveredmethods="4"/>
         <line num="10" count="7" type="stmt"/>
-        <line num="11" count="71" type="stmt"/>
-        <line num="12" count="66" type="stmt"/>
-        <line num="13" count="66" type="stmt"/>
-        <line num="14" count="66" type="stmt"/>
-        <line num="15" count="66" type="stmt"/>
-        <line num="16" count="66" type="stmt"/>
-        <line num="18" count="66" type="stmt"/>
+        <line num="11" count="70" type="stmt"/>
+        <line num="12" count="65" type="stmt"/>
+        <line num="13" count="65" type="stmt"/>
+        <line num="14" count="65" type="stmt"/>
+        <line num="15" count="65" type="stmt"/>
+        <line num="16" count="65" type="stmt"/>
+        <line num="18" count="65" type="stmt"/>
         <line num="19" count="32" type="stmt"/>
         <line num="20" count="32" type="stmt"/>
         <line num="21" count="32" type="cond" truecount="2" falsecount="0"/>
@@ -21,15 +21,21 @@
         <line num="27" count="32" type="stmt"/>
         <line num="28" count="32" type="stmt"/>
         <line num="31" count="32" type="stmt"/>
-        <line num="34" count="66" type="stmt"/>
+        <line num="34" count="65" type="stmt"/>
       </file>
       <file name="mock-data.js" path="/Users/olya/Documents/GitHub/meet/src/mock-data.js">
         <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="8" type="stmt"/>
       </file>
+      <file name="service-worker.js" path="/Users/olya/Documents/GitHub/meet/src/service-worker.js">
+        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      </file>
+      <file name="serviceWorkerRegistration.js" path="/Users/olya/Documents/GitHub/meet/src/serviceWorkerRegistration.js">
+        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      </file>
     </package>
     <package name="src.components">
-      <metrics statements="61" coveredstatements="55" conditionals="29" coveredconditionals="24" methods="15" coveredmethods="15"/>
+      <metrics statements="61" coveredstatements="57" conditionals="29" coveredconditionals="25" methods="15" coveredmethods="15"/>
       <file name="CitySearch.jsx" path="/Users/olya/Documents/GitHub/meet/src/components/CitySearch.jsx">
         <metrics statements="32" coveredstatements="30" conditionals="10" coveredconditionals="8" methods="7" coveredmethods="7"/>
         <line num="3" count="7" type="stmt"/>
@@ -88,20 +94,20 @@
         <line num="8" count="844" type="stmt"/>
       </file>
       <file name="NumberOfEvents.jsx" path="/Users/olya/Documents/GitHub/meet/src/components/NumberOfEvents.jsx">
-        <metrics statements="13" coveredstatements="11" conditionals="5" coveredconditionals="4" methods="3" coveredmethods="3"/>
+        <metrics statements="13" coveredstatements="13" conditionals="5" coveredconditionals="5" methods="3" coveredmethods="3"/>
         <line num="3" count="7" type="cond" truecount="1" falsecount="0"/>
-        <line num="4" count="71" type="stmt"/>
-        <line num="6" count="71" type="stmt"/>
-        <line num="7" count="16" type="stmt"/>
-        <line num="8" count="16" type="stmt"/>
-        <line num="9" count="16" type="stmt"/>
-        <line num="12" count="16" type="cond" truecount="3" falsecount="1"/>
-        <line num="13" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
-        <line num="18" count="16" type="stmt"/>
-        <line num="20" count="16" type="stmt"/>
-        <line num="21" count="16" type="stmt"/>
-        <line num="25" count="71" type="stmt"/>
+        <line num="4" count="78" type="stmt"/>
+        <line num="6" count="78" type="stmt"/>
+        <line num="7" count="21" type="stmt"/>
+        <line num="8" count="21" type="stmt"/>
+        <line num="9" count="21" type="stmt"/>
+        <line num="12" count="21" type="cond" truecount="4" falsecount="0"/>
+        <line num="13" count="3" type="stmt"/>
+        <line num="15" count="3" type="stmt"/>
+        <line num="18" count="18" type="stmt"/>
+        <line num="20" count="18" type="stmt"/>
+        <line num="21" count="18" type="stmt"/>
+        <line num="25" count="78" type="stmt"/>
       </file>
     </package>
   </project>

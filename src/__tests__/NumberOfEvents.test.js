@@ -1,5 +1,5 @@
 import React from "react";
-import { render, within } from "@testing-library/react";
+import { render, within, screen, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import NumberOfEvents from "../components/NumberOfEvents";
 import App from "../App";
@@ -46,5 +46,63 @@ describe("<NumberOfEvents /> integration", () => {
     const eventList = within(EventListDOM).queryAllByRole("listitem");
 
     expect(eventList.length).toBe(10);
+  });
+});
+
+describe("<NumberOfEvents /> error handling", () => {
+  test("shows error for negative number", async () => {
+    const setNumberOfEvents = jest.fn();
+    const setErrorAlert = jest.fn();
+
+    const { getByTestId } = render(
+      <NumberOfEvents
+        numberOfEvents={32}
+        setNumberOfEvents={setNumberOfEvents}
+        setErrorAlert={setErrorAlert}
+      />
+    );
+
+    const input = getByTestId("number-input");
+    await userEvent.clear(input);
+
+    fireEvent.change(input, { target: { value: "-1" } });
+    expect(setErrorAlert).toHaveBeenCalledWith(
+      "Number of events must be a positive number"
+    );
+
+    setNumberOfEvents.mockClear();
+    expect(setNumberOfEvents).not.toHaveBeenCalled();
+  });
+
+  // New test for checking different alert displays
+  test("displays different alerts based on input", async () => {
+    const setNumberOfEvents = jest.fn();
+    const setErrorAlert = jest.fn();
+
+    const { getByTestId } = render(
+      <NumberOfEvents
+        numberOfEvents={32}
+        setNumberOfEvents={setNumberOfEvents}
+        setErrorAlert={setErrorAlert}
+      />
+    );
+
+    const input = getByTestId("number-input");
+
+    // Non-numeric input
+    await userEvent.clear(input);
+    fireEvent.change(input, { target: { value: "abc" } });
+    expect(setErrorAlert).toHaveBeenCalledWith(
+      "Number of events must be a positive number"
+    );
+    setErrorAlert.mockClear();
+
+    //Zero
+    await userEvent.clear(input);
+    fireEvent.change(input, { target: { value: "0" } });
+    expect(setErrorAlert).toHaveBeenCalledWith(
+      "Number of events must be a positive number"
+    );
+    setErrorAlert.mockClear();
   });
 });

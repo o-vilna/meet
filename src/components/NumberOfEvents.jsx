@@ -6,19 +6,19 @@ const NumberOfEvents = ({ setNumberOfEvents, setErrorAlert = () => {} }) => {
   const handleInputChanged = (event) => {
     const value = event.target.value;
     setNumber(value);
-    console.log("Введене значення:", value);
+    console.log("Input value:", value);
 
-    // Перевіряємо чи введене значення є коректним числом
+    // Check if the input value is a valid number
     if (isNaN(value) || parseInt(value) <= 0) {
-      console.log("Некоректне значення, не викликаємо setNumberOfEvents");
-      //Якщо значення не є числом або менше/рівне 0, показуємо помилку
-      setErrorAlert("Кількість подій має бути додатнім числом");
-      // НЕ викликаємо setNumberOfEvents при некоректному вводі
+      console.log("Invalid value, not calling setNumberOfEvents");
+      // If the value is not a number or less than/equal to 0, show an error
+      setErrorAlert("Number of events must be a positive number");
+    
     } else {
       console.log("Valid value, calling setNumberOfEvents");
       // If the value is valid, clear the error and update the state
       setErrorAlert("");
-      setNumberOfEvents(Number(value)); // Convert to number
+      setNumberOfEvents(Number(value));
     }
   };
 
