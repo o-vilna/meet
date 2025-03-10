@@ -7,56 +7,70 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      manifest: {
-        short_name: "React App",
-        name: "Create React App Sample",
-        icons: [
-          {
-            src: "favicon.ico",
-            sizes: "48x48",
-            type: "image/x-icon",
-            purpose: "maskable",
-          },
-          {
-            src: "meet-app-144.png",
-            type: "image/png",
-            sizes: "144x144",
-            purpose: "any",
-          },
-          {
-            src: "meet-app-192.png",
-            type: "image/png",
-            sizes: "192x192",
-            purpose: "maskable",
-          },
-          {
-            src: "meet-app-512.png",
-            type: "image/png",
-            sizes: "512x512",
-            purpose: "maskable",
-          },
-        ],
-        start_url: ".",
-        display: "standalone",
-        theme_color: "#000000",
-        background_color: "#ffffff",
-      },
-      srcDir: "src", // Update if your service-worker.js is elsewhere
-      filename: "service-worker.js", // Ensure it's accessible in production
       registerType: "autoUpdate",
+      devOptions: {
+        enabled: true,
+        type: "module",
+        navigateFallback: "index.html",
+      },
+      injectRegister: "auto",
       workbox: {
+        clientsClaim: true,
+        skipWaiting: true,
+        globPatterns: ["**/*.{js,css,html,ico,png,svg,json}"],
+        navigateFallbackDenylist: [/^\/api\//],
         runtimeCaching: [
           {
-            urlPattern: /\/.*\.png$/, // Example pattern for caching png images
-            handler: "StaleWhileRevalidate",
+            urlPattern: ({ url }) => {
+              return url.href.includes(
+                "execute-api.eu-central-1.amazonaws.com"
+              );
+            },
+            handler: "NetworkFirst",
             options: {
-              cacheName: "images",
+              cacheName: "api-cache",
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+              networkTimeoutSeconds: 10,
               expiration: {
-                maxEntries: 50,
+                maxEntries: 100,
+                maxAgeSeconds: 60 * 60 * 24,
               },
             },
           },
         ],
+      },
+      manifest: {
+        name: "Meet App",
+        short_name: "Meet",
+        description: "Meet App - Find events near you",
+        icons: [
+          {
+            src: "meet-app-144.png",
+            sizes: "144x144",
+            type: "image/png",
+            purpose: "any",
+          },
+          {
+            src: "meet-app-192.png",
+            sizes: "192x192",
+            type: "image/png",
+            purpose: "any maskable",
+          },
+          {
+            src: "meet-app-512.png",
+            sizes: "512x512",
+            type: "image/png",
+            purpose: "any maskable",
+          },
+        ],
+        start_url: "/",
+        scope: "/",
+        display: "standalone",
+        background_color: "#ffffff",
+        theme_color: "#000000",
+        orientation: "portrait",
       },
     }),
   ],

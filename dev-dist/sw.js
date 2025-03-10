@@ -67,7 +67,7 @@ if (!self.define) {
     });
   };
 }
-define(['./workbox-706c6701'], (function (workbox) { 'use strict';
+define(['./workbox-55d1eca6'], (function (workbox) { 'use strict';
 
   self.skipWaiting();
   workbox.clientsClaim();
@@ -82,17 +82,26 @@ define(['./workbox-706c6701'], (function (workbox) { 'use strict';
     "revision": "4cc0adb6ecd0a53cb614db9c5908c01f"
   }, {
     "url": "index.html",
-    "revision": "0.5tpvven978o"
+    "revision": "0.knb47afpt1o"
   }], {});
   workbox.cleanupOutdatedCaches();
   workbox.registerRoute(new workbox.NavigationRoute(workbox.createHandlerBoundToURL("index.html"), {
-    allowlist: [/^\/$/]
+    allowlist: [/^\/$/],
+    denylist: [/^\/api\//]
   }));
   workbox.registerRoute(({
     url
-  }) => url.pathname.startsWith("/api"), new workbox.NetworkFirst({
+  }) => {
+    return url.href.includes("execute-api.eu-central-1.amazonaws.com");
+  }, new workbox.NetworkFirst({
     "cacheName": "api-cache",
-    plugins: []
+    "networkTimeoutSeconds": 10,
+    plugins: [new workbox.CacheableResponsePlugin({
+      statuses: [0, 200]
+    }), new workbox.ExpirationPlugin({
+      maxEntries: 100,
+      maxAgeSeconds: 86400
+    })]
   }), 'GET');
 
 }));
