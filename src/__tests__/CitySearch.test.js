@@ -5,6 +5,18 @@ import CitySearch from "../components/CitySearch";
 import App from "../App";
 import { extractLocations, getEvents } from "../api";
 
+jest.mock("../components/CityEventsChart", () => {
+  return function MockCityEventsChart() {
+    return <div data-testid="mock-city-chart">City Events Chart</div>;
+  };
+});
+
+jest.mock("../components/EventGenresChart", () => {
+  return function MockEventGenresChart() {
+    return <div data-testid="mock-genres-chart">Event Genres Chart</div>;
+  };
+});
+
 describe("<CitySearch /> component", () => {
   let CitySearchComponent;
   const setCurrentCity = jest.fn();
@@ -35,7 +47,6 @@ describe("<CitySearch /> component", () => {
     const input = CitySearchComponent.getByPlaceholderText("Search for a city");
     fireEvent.change(input, { target: { value: "Berlin" } });
 
-    // Чекаємо поки список з'явиться
     await CitySearchComponent.findByRole("list");
     const suggestionList = CitySearchComponent.getByRole("list");
 
@@ -47,7 +58,6 @@ describe("<CitySearch /> component", () => {
     const input = CitySearchComponent.getByPlaceholderText("Search for a city");
     fireEvent.change(input, { target: { value: "Berlin" } });
 
-    // Чекаємо поки список з'явиться
     await CitySearchComponent.findByRole("list");
     const suggestionList = CitySearchComponent.getByRole("list");
 
@@ -61,7 +71,6 @@ describe("<CitySearch /> component", () => {
     const input = CitySearchComponent.getByPlaceholderText("Search for a city");
     fireEvent.change(input, { target: { value: "Berlin" } });
 
-    // Чекаємо поки список з'явиться
     await CitySearchComponent.findByRole("list");
     const allCitiesOption = CitySearchComponent.getByText(/see all cities/i);
 
@@ -74,9 +83,8 @@ describe("<CitySearch /> component", () => {
     const user = userEvent.setup();
     const input = CitySearchComponent.getByPlaceholderText("Search for a city");
 
-    // Спочатку вводимо якийсь текст
     await user.type(input, "Berlin");
-    // Потім видаляємо його
+
     await user.clear(input);
 
     expect(setCurrentCity).toHaveBeenCalledWith("See all cities");

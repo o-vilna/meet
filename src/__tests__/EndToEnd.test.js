@@ -1,14 +1,20 @@
 import puppeteer from "puppeteer";
 
+jest.mock("../components/CityEventsChart", () => {
+  return function MockCityEventsChart() {
+    return <div data-testid="mock-chart">Chart Component Mock</div>;
+  };
+});
+
 describe("show/hide an event details", () => {
   let browser;
   let page;
 
   beforeAll(async () => {
     browser = await puppeteer.launch({
-      headless: false, // Відкрити реальний браузер
-      slowMo: 250, // Сповільнити кожну дію на 250 мс
-      timeout: 0, // Вимкнути таймаут Puppeteer
+      headless: false,
+      slowMo: 250,
+      timeout: 0,
     });
     page = await browser.newPage();
     await page.goto("http://localhost:5173/");

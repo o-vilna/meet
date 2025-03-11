@@ -126,19 +126,64 @@ input[type="number"] {
 }
 
 .charts-container {
-  grid-template-columns: 1fr 1fr;
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.chart-item {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 300px;
+  min-width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+canvas {
+  width: 100;
+  height: auto;
+  max-width: 300px;
 }
 
 @media (max-width: 768px) {
   .charts-container {
     grid-template-columns: 1fr;
+    max-width: 300px;
   }
 }
 
-/* Повністю оновлені стилі для центрування карток */
+.number-of-events {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px auto;
+  padding: 10px;
+}
 
-/* Базові стилі */
+.number-title {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.number-of-events-input {
+  width: 80px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  text-align: center;
+}
+
 body {
   font-family: "Roboto", sans-serif;
   background-color: #f5f7fa;
@@ -147,13 +192,12 @@ body {
   color: #333;
   width: 100%;
   display: flex;
-  justify-content: center; /* Центрування всього вмісту */
+  justify-content: center;
 }
 
-/* Контейнер додатку - центрування */
 .App {
   width: 100%;
-  max-width: 1800px; /* Обмежена максимальна ширина */
+  max-width: 1800px;
   margin: 0 auto;
   padding: 1% 2%;
   box-sizing: border-box;
@@ -162,7 +206,6 @@ body {
   align-items: center;
 }
 
-/* Адаптивний список подій - центрування */
 #event-list {
   display: flex;
   flex-wrap: wrap;
@@ -170,21 +213,19 @@ body {
   margin: 20px;
 }
 
-/* Стилі для подій */
 .event {
   background-color: #f8f8f8;
   padding: 15px;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   width: 300px;
-  min-height: 200px; /* Мінімальна висота в закритому стані */
+  min-height: 200px;
   position: relative;
   display: flex;
   flex-direction: column;
-  transition: height 0.3s ease; /* Плавний перехід при зміні висоти */
+  transition: height 0.3s ease;
 }
 
-/* Стилі для заголовка події */
 .event .summary {
   font-weight: bold;
   margin-bottom: 10px;
@@ -194,7 +235,6 @@ body {
   max-width: 100%;
 }
 
-/* Стилі для локації події */
 .event .location {
   font-size: 14px;
   color: #555;
@@ -205,7 +245,6 @@ body {
   max-width: 100%;
 }
 
-/* Стилі для кнопки деталей */
 .event .details-btn {
   background-color: #4285f4;
   color: white;
@@ -221,7 +260,6 @@ body {
   background-color: #3367d6;
 }
 
-/* Стилі для деталей події */
 .event .details {
   margin-top: 15px;
   font-size: 14px;
@@ -229,11 +267,10 @@ body {
   background-color: #f0f0f0;
   padding: 10px;
   border-radius: 5px;
-  height: 150px; /* Фіксована висота для блоку деталей */
-  overflow-y: auto; /* Додаємо прокрутку для довгого тексту */
+  height: 150px;
+  overflow-y: auto;
 }
 
-/* Стилі для контейнера вмісту */
 .event .event-content {
   flex-grow: 1;
   display: flex;
@@ -241,7 +278,6 @@ body {
   overflow: hidden;
 }
 
-/* Стилі для відкритої картки */
 .event.expanded {
   height: 400px; /* Фіксована висота для відкритої картки */
 }
@@ -253,7 +289,7 @@ body {
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   margin-bottom: 35px;
-  width: 90%; /* Зменшено ширину для центрування */
+  width: 90%;
   max-width: 600px;
   align-self: center;
 }

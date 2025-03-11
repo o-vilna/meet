@@ -4,6 +4,19 @@ import userEvent from "@testing-library/user-event";
 import NumberOfEvents from "../components/NumberOfEvents";
 import App from "../App";
 
+// Мокуємо компоненти графіків
+jest.mock("../components/CityEventsChart", () => {
+  return function MockCityEventsChart() {
+    return <div data-testid="mock-city-chart">City Events Chart</div>;
+  };
+});
+
+jest.mock("../components/EventGenresChart", () => {
+  return function MockEventGenresChart() {
+    return <div data-testid="mock-genres-chart">Event Genres Chart</div>;
+  };
+});
+
 describe("<NumberOfEvents /> component", () => {
   let NumberOfEventsComponent;
 

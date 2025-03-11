@@ -4,6 +4,18 @@ import { getEvents } from "../api";
 import EventList from "../components/EventList";
 import App from "../App";
 
+jest.mock("../components/CityEventsChart", () => {
+  return function MockCityEventsChart() {
+    return <div data-testid="mock-chart">Chart Component Mock</div>;
+  };
+});
+
+jest.mock("../components/EventGenresChart", () => {
+  return function MockEventGenresChart() {
+    return <div data-testid="mock-genres-chart">Event Genres Chart Mock</div>;
+  };
+});
+
 describe("<EventList /> component", () => {
   let EventListComponent;
   beforeEach(() => {

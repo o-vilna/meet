@@ -4,6 +4,8 @@ import EventList from './components/EventList';
 import NumberOfEvents from './components/NumberOfEvents';
 import { getEvents, extractLocations } from './api';
 import { InfoAlert, ErrorAlert, WarningAlert } from './components/Alert';
+import CityEventsChart from './components/CityEventsChart';
+import EventGenresChart from './components/EventGenresChart';
 
 import './App.css';
 
@@ -40,6 +42,7 @@ const App = () => {
 
   return (
     <div className="App">
+      <h1>Meet App</h1>
       <div className="alerts-container">
         {infoAlert.length ? <InfoAlert text={infoAlert} /> : null}
         {errorAlert.length ? <ErrorAlert text={errorAlert} /> : null}
@@ -55,7 +58,8 @@ const App = () => {
         setErrorAlert={setErrorAlert}
       />
       <div className="charts-container">
-        {/* Місце для майбутніх графіків */}
+        <EventGenresChart events={events} />
+        <CityEventsChart allLocations={allLocations} events={events} />
       </div>
       <EventList 
         events={events}

@@ -15,7 +15,6 @@ NProgress.configure({
   minimum: 0.1
 });
 
-// Додайте реєстрацію service worker через vite-plugin-pwa
 const updateSW = registerSW({
   onNeedRefresh() {
     if (confirm('New content available. Update?')) {

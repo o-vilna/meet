@@ -4,6 +4,18 @@ import { render, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "../App";
 
+jest.mock("../components/CityEventsChart", () => {
+  return function MockCityEventsChart() {
+    return <div data-testid="mock-chart">Chart Component Mock</div>;
+  };
+});
+
+jest.mock("../components/EventGenresChart", () => {
+  return function MockEventGenresChart() {
+    return <div data-testid="mock-genres-chart">Event Genres Chart Mock</div>;
+  };
+});
+
 const feature = loadFeature("./src/features/showHideAnEventsDetails.feature");
 
 defineFeature(feature, (test) => {
