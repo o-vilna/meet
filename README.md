@@ -3,8 +3,8 @@
 ## Project Overview
 The Meet App is a serverless, progressive web application (PWA) developed with React using a test-driven development (TDD) approach. The application leverages the Google Calendar API to fetch and display upcoming events and offers advanced features such as offline usage and data visualization.
 
-### Objective
-The primary goal is to create a high-quality, responsive application that meets the latest web development trends, including serverless architecture and PWA functionalities. The use of TDD ensures robust and reliable code while providing immediate feedback during development.
+## Live Demo
+Check out the live demo: [Meet App](https://meet-brown.vercel.app/)
 
 ## Features
 1. **Filter Events By City:** Users can search for and filter events by city to focus on specific locations.
